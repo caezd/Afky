@@ -1,22 +1,13 @@
 {
     "name": "afky",
-<<<<<<< HEAD
-    "version": "1.0.0",
-=======
     "version": "0.1.0",
->>>>>>> 6b46255 (tiles)
     "description": "",
     "type": "module",
     "main": "index.js",
     "scripts": {
         "build": "rollup -c",
-<<<<<<< HEAD
-        "dev": "concurrently -k \"rollup -c -w\" \"http-server dist -p 8080 -c-1\"",
-        "serve": "http-server dist -p 8080 -c-1",
-=======
         "dev": "concurrently -k \"rollup -c -w\" \"http-server dist -p 8080 -c-1 --cors\"",
         "serve": "http-server dist -p 8080 -c-1 --cors",
->>>>>>> 6b46255 (tiles)
         "clean": "rimraf dist"
     },
     "devDependencies": {
