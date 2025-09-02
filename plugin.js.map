@@ -1,0 +1,1 @@
+{"version":3,"file":"plugin.js","sources":["index.js"],"sourcesContent":["function test() {\r\n    console.log(\"Test function\");\r\n}\r\ntest();\r\n"],"names":[],"mappings":";;;IAAA,SAAS,IAAI,GAAG;IAChB,IAAI,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;IACjC,CAAC;IACD,IAAI,EAAE;;;;;;"}
