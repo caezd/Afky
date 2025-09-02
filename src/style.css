@@ -147,6 +147,8 @@ body {
 
 :root {
     --heager-background: #001a31;
+    --profile-container-offset: 92px;
+    --bg-body: #eee7d3;
 }
 
 .modern-resp {
@@ -181,8 +183,8 @@ body {
 .profile__left-side {
     display: flex;
     flex-direction: column;
-    min-block-size: 0; /* IMPORTANT pour permettre le shrink/scroll internes */
-    overflow: hidden;
+    min-block-size: 0;
+    grid-area: left-side;
 }
 
 .accordion {
@@ -191,16 +193,14 @@ body {
     gap: 8px;
     block-size: 100%;
     min-block-size: 0; /* permet aux enfants de prendre la hauteur */
+    border-left: 1px solid #2a2a2a;
 }
 
 /* Item fermé : header visible + panel à 0fr (donc 0 hauteur) */
 .accordion__item {
     display: grid;
     grid-template-rows: auto 0fr;
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    background: #202020;
-    overflow: clip; /* masque le panel quand 0fr */
+    transition: 0.2s ease flex;
 }
 
 /* Item ouvert : le panel prend TOUT l’espace disponible */
@@ -223,28 +223,35 @@ body {
     padding: 10px 12px;
     cursor: pointer;
     font-weight: 600;
-    background: #2a2a2a;
 }
 .accordion__trigger[aria-expanded="true"] {
-    background: #333;
+    position: relative;
+    padding-right: var(--profile-container-offset);
+    z-index: 0;
+    &:before {
+        content: "";
+        position: absolute;
+        left: calc(var(--profile-container-offset) * -1 - 1px);
+        height: 100%;
+        background: blue;
+        width: 50%;
+        z-index: -1;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
 }
 
-/* Le conteneur de panel ne scrolle pas : il gère la place (0fr/1fr) */
 .accordion__panel {
     overflow: hidden;
-    min-block-size: 0; /* autorise l’enfant à scroller */
+    min-block-size: 0;
 }
 
-/* Le contenu interne scrolle si nécessaire */
 .accordion__scroll {
     block-size: 100%;
     min-block-size: 0;
-    overflow: auto;
     padding: 12px;
-    background: #1a1a1a;
 }
 
-/* --- Animations --- */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -252,4 +259,65 @@ body {
     to {
         opacity: 1;
     }
+}
+
+/* categories */
+.full-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background-color: var(--bg-body);
+}
+
+.categories__container {
+    position: relative;
+    overflow: clip;
+    width: 100vw;
+    height: 100vh;
+    --curtains-width: 20%;
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        width: var(--curtains-width);
+        height: 100%;
+        transform: skewX(-7deg);
+        background: rgba(0, 0, 0, 0.25);
+        z-index: 10;
+        transition: 0.2s ease;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+        transform-origin: top left;
+        transform: skewX(-7deg);
+    }
+    &:after {
+        top: 0;
+        right: 0;
+        transform-origin: bottom right;
+        transform: skewX(-7deg);
+    }
+}
+.categories__container:has(.categories__wrapper:hover) {
+    /* style ou transition à appliquer au container */
+    &:before,
+    &:after {
+        opacity: 0;
+    }
+    &:before {
+        left: -16px;
+    }
+    &:after {
+        right: -16px;
+    }
+}
+.categories__wrapper {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    &: hover;
 }

@@ -8,12 +8,12 @@ export default [
         input: "src/index.js",
         output: [
             {
-                file: "dist/commint.esm.js",
+                file: "dist/afky.esm.js",
                 format: "esm",
                 sourcemap: true,
             },
             {
-                file: "dist/commint.js",
+                file: "dist/afky.js",
                 format: "iife",
                 name: "Commint",
                 sourcemap: true,

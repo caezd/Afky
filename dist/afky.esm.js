@@ -1,5 +1,3 @@
-import "./style.css";
-
 function forceFirstPaint(map) {
     map.resize();
     map.jumpTo({ center: map.getCenter(), zoom: map.getZoom() });
@@ -115,3 +113,4 @@ function main() {
     });
 }
 main();
+//# sourceMappingURL=afky.esm.js.map

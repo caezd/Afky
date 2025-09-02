@@ -1,0 +1,1 @@
+{"version":3,"file":"plugin.esm.js","sources":["index.js"],"sourcesContent":["function test() {\r\n    console.log(\"Test function\");\r\n}\r\ntest();\r\n"],"names":[],"mappings":"AAAA,SAAS,IAAI,GAAG;AAChB,IAAI,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;AACjC,CAAC;AACD,IAAI,EAAE"}
