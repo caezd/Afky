@@ -1,0 +1,1 @@
+{"version":3,"file":"commint.esm.js","sources":["../src/index.js"],"sourcesContent":["import \"./style.css\";\r\n\r\nfunction main() {\r\n    console.log(\"Hello, world!\");\r\n}\r\nmain();\r\n"],"names":[],"mappings":"AAEA,SAAS,IAAI,GAAG;AAChB,IAAI,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;AACjC,CAAC;AACD,IAAI,EAAE"}

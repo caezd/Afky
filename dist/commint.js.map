@@ -1,0 +1,1 @@
+{"version":3,"file":"commint.js","sources":["../src/index.js"],"sourcesContent":["import \"./style.css\";\r\n\r\nfunction main() {\r\n    console.log(\"Hello, world!\");\r\n}\r\nmain();\r\n"],"names":[],"mappings":";;;IAEA,SAAS,IAAI,GAAG;IAChB,IAAI,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;IACjC,CAAC;IACD,IAAI,EAAE;;;;;;"}
