@@ -4,6 +4,81 @@ function forceFirstPaint(map) {
     if (map.triggerRepaint) map.triggerRepaint();
 }
 
+function forceSkew() {
+    var curPage = 1;
+    var numOfPages = document.querySelectorAll(".skw-page").length;
+    var animTime = 1000;
+    var scrolling = false;
+    var pgPrefix = ".skw-page-";
+
+    function pagination() {
+        scrolling = true;
+
+        var cur = document.querySelector(pgPrefix + curPage);
+        if (cur) {
+            cur.classList.remove("inactive");
+            cur.classList.add("active");
+        }
+
+        var prev = document.querySelector(pgPrefix + (curPage - 1));
+        if (prev) prev.classList.add("inactive");
+
+        var next = document.querySelector(pgPrefix + (curPage + 1));
+        if (next) next.classList.remove("active");
+
+        setTimeout(function () {
+            scrolling = false;
+        }, animTime);
+    }
+
+    function navigateUp() {
+        if (curPage === 1) return;
+        curPage--;
+        pagination();
+    }
+
+    function navigateDown() {
+        if (curPage === numOfPages) return;
+        curPage++;
+        pagination();
+    }
+
+    function onWheel(e) {
+        if (scrolling) return;
+        // wheel: deltaY>0 descend; mousewheel: wheelDelta>0 monte; DOMMouseScroll: detail<0 monte
+        var delta =
+            e.deltaY !== undefined ? -e.deltaY : e.wheelDelta || -e.detail;
+        if (delta > 0) {
+            navigateUp();
+        } else {
+            navigateDown();
+        }
+    }
+
+    function onKeydown(e) {
+        if (scrolling) return;
+        var code = e.which || e.keyCode;
+        if (code === 38 || e.key === "ArrowUp") {
+            navigateUp();
+        } else if (code === 40 || e.key === "ArrowDown") {
+            navigateDown();
+        }
+    }
+
+    document.addEventListener("wheel", onWheel, { passive: true });
+    document.addEventListener("mousewheel", onWheel, { passive: true });
+    document.addEventListener("DOMMouseScroll", onWheel, { passive: true });
+    document.addEventListener("keydown", onKeydown);
+
+    // Optionnel: renvoie une fonction de nettoyage si tu veux détacher les listeners plus tard
+    return function destroyForceSkew() {
+        document.removeEventListener("wheel", onWheel);
+        document.removeEventListener("mousewheel", onWheel);
+        document.removeEventListener("DOMMouseScroll", onWheel);
+        document.removeEventListener("keydown", onKeydown);
+    };
+}
+
 function main() {
     new Honey({
         index_box: function (data) {
@@ -16,9 +91,9 @@ function main() {
                     container: `${forum.name}`,
                     style: { version: 8, sources: {}, layers: [] },
                     center: [0, 0],
-                    zoom: 1,
+                    zoom: 2,
                     minZoom: 0,
-                    maxZoom: 3,
+                    maxZoom: 5,
                     trackResize: true,
                     attributionControl: false,
                 });
@@ -69,7 +144,12 @@ function main() {
                             anchorsWithCoords.forEach((a) => {
                                 if (!a.coords) return;
 
-                                new maplibregl.Marker({ color: "#d1193e" })
+                                const el = document.createElement("div");
+                                el.className = "test-marker";
+                                el.style.backgroundImage = `url('http://picsum.photos/25/25')`;
+                                const marker = new maplibregl.Marker({
+                                    element: el,
+                                })
                                     .setLngLat(a.coords)
                                     .setPopup(
                                         new maplibregl.Popup({
@@ -79,6 +159,7 @@ function main() {
                                         )
                                     )
                                     .addTo(map);
+                                marker.setSubpixelPositioning(true);
                             });
                         });
                 } catch (e) {
@@ -105,6 +186,7 @@ function main() {
                     });
                     map.addLayer({ id: "r", type: "raster", source: "r" });
                     forceFirstPaint(map);
+                    forceSkew();
                 });
             }
 
